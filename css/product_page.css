@@ -1,4 +1,7 @@
-/* This CSS applies to product pages */
+/* ------------------------------------------
+product_page.css
+Стили для страницы товара Ozon.ru
+------------------------------------------ */
 
 /* Маркетинговые иконки на товаре */
 div[data-widget="webMarketingLabels"]

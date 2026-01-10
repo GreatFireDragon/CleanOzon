@@ -1,4 +1,7 @@
-/* css/settings_styles.css */
+/* ------------------------------------------
+settings_styles.css
+Стили, которые добавляются в зависимости от настроек пользователя
+------------------------------------------ */
 
 /* Class added to <html> by settings.js for Black and White mode */
 html.ozon-customizer-bw-mode body {

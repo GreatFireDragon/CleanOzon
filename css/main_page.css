@@ -1,4 +1,7 @@
-/* This CSS applies only to the main page (https://www.ozon.ru/) */
+/* ------------------------------------------
+main_page.css
+Стили для главной страницы Ozon.ru
+------------------------------------------ */
 
 div[data-widget="seasonWidget"],
 div[data-widget="advBanner"],
@@ -10,8 +13,7 @@ section:has(div[title="Цена что надо"])
 { display: none; }
 
 div[data-index]>div:last-child>div:first-child>div>span:nth-child(n+2)
-{ /* 		filter: blur(3px); */
-display: none; }
+{display: none; }
 
 div[data-widget="separator"]
 { background-color: var(--accent); }

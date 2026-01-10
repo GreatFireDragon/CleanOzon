@@ -1,4 +1,7 @@
-/* This CSS applies to all pages on www.ozon.ru */
+/* ------------------------------------------
+general.css 
+Общие стили для всех страниц Ozon.ru
+------------------------------------------ */
 
 :root
 {
@@ -28,3 +31,50 @@ header[data-widget="header"][itemscope="itemscope"]
 /* Верхняя перелинковка */
 header>div:last-child>div:first-child
 { display: none !important; }
+
+
+
+/* ------------------------------------------
+Стили для всех страниц, на которых есть карточки товаров
+------------------------------------------ */
+
+/* TODO:
+Переработвать ценники, чтобы выделятиь более точечно, а не через общий селектор tsHeadline500Medium
+*/
+
+/* Ценники */
+span.tsHeadline500Medium
+{
+-webkit-text-fill-color: var(--cleanOzon-gray) !important;
+color: var(--cleanOzon-gray) !important;
+background: none !important;
+}
+
+/* ozon.ru */
+/* div:is([data-widget="skuGridSimple"]) > div > div { */
+div:has(> div[data-index]) > div {
+    /* Прямоугольные плашки */
+    & > a section, 
+    /* Оценка товара */
+    & > div:nth-of-type(2) > div:nth-of-type(2) {
+        display: none;
+    }
+}
+
+/* ozon.ru/category */
+/* div[data-widget="tileGridDesktop"] > div { */
+div:has(> div[data-index]) > div {
+    /* Прямоугольные плашки на карточке */
+    & > a section, 
+    /* Оценка, отзывы, остатки */
+    & > a + div div:is(:nth-of-type(n+2)),
+    /* Старая цена и скидка (внутри блока цены) */
+    & > a + div div:nth-of-type(1) > div > span:is(:nth-of-type(n+2)),
+    /* Сердечко (Добавть в избранное) */
+    & > a + div + div {
+        display: none;
+    }
+}
+/* Перекрасить "в корзину" */
+div[data-widget="skuGridSimple"] > div > div:nth-child(2) > div:nth-child(5) > div > button
+{background: var(--cleanOzon-gray);}

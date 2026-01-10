@@ -7,7 +7,6 @@ on:
     paths-ignore:
       - '*.md'
 
-# ВАЖНО: Разрешаем скрипту создавать релизы и теги
 permissions:
   contents: write
 
@@ -18,15 +17,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 1. Читаем версию из манифеста и заголовок коммита
+      # 1. Читаем версию из ОБЩЕГО manifest.json
       - name: Read Version and Commit Message
         id: meta
         run: |
-          # Читаем поле version из json
-          VERSION=$(jq -r '.version' manifest.chrome.json)
+          # Теперь читаем из основного файла
+          VERSION=$(jq -r '.version' manifest.json)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           
-          # Берем первую строку сообщения коммита (чтобы заголовок релиза не был огромным)
           COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -n 1)
           echo "COMMIT_MSG=$COMMIT_MSG" >> $GITHUB_ENV
           
@@ -37,8 +35,12 @@ jobs:
       - name: Build Chrome Extension
         run: |
           mkdir -p dist/chrome
-          rsync -av --progress . dist/chrome --exclude .git --exclude .github --exclude dist --exclude manifest.firefox.json --exclude manifest.chrome.json
-          cp manifest.chrome.json dist/chrome/manifest.json
+          # Копируем всё, кроме служебных файлов git/github и файла переопределений для FF
+          rsync -av --progress . dist/chrome --exclude .git --exclude .github --exclude dist --exclude manifest.firefox-overrides.json
+          
+          # Для Хрома манифест остается без изменений
+          # (rsync уже скопировал manifest.json, но для надежности убедимся)
+          
           cd dist/chrome
           zip -r ../extension-chrome.zip .
           cd ../..
@@ -47,14 +49,17 @@ jobs:
       - name: Build Firefox Extension
         run: |
           mkdir -p dist/firefox
-          rsync -av --progress . dist/firefox --exclude .git --exclude .github --exclude dist --exclude manifest.firefox.json --exclude manifest.chrome.json
-          cp manifest.firefox.json dist/firefox/manifest.json
+          rsync -av --progress . dist/firefox --exclude .git --exclude .github --exclude dist --exclude manifest.firefox-overrides.json
+          
+          # МАГИЯ ЗДЕСЬ: Склеиваем основной манифест с настройками для FF
+          # '.[0] * .[1]' означает: взять первый файл и наложить на него второй (перезаписать совпадающие поля)
+          jq -s '.[0] * .[1]' manifest.json manifest.firefox-overrides.json > dist/firefox/manifest.json
+          
           cd dist/firefox
           zip -r ../extension-firefox.zip .
           cd ../..
 
       # --- СОЗДАНИЕ РЕЛИЗА НА GITHUB ---
-      # Этот шаг создаст тег v<версия> (если его нет) и оформит релиз
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
@@ -70,14 +75,6 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # --- СОХРАНЕНИЕ АРТЕФАКТОВ (На всякий случай оставим) ---
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: extensions-v${{ env.VERSION }}
-          path: dist/*.zip
-          retention-days: 5
 
       # --- ПУБЛИКАЦИЯ В CHROME ---
       - name: Upload to Chrome Web Store
