@@ -1,12 +1,14 @@
-name: Publish Extension
+name: Build and Publish on Push
 
 on:
   push:
-    tags:
-      - 'v*' # Запускать только если пуш содержит тег, начинающийся с v
+    branches:
+      - main  # или 'master', проверьте как называется ваша ветка
+    paths-ignore:
+      - '*.md' # Не запускать сборку, если меняли только README
 
 jobs:
-  build-and-release:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,11 +18,8 @@ jobs:
       - name: Build Chrome Extension
         run: |
           mkdir -p dist/chrome
-          # Копируем всё кроме служебных файлов
           rsync -av --progress . dist/chrome --exclude .git --exclude .github --exclude dist --exclude manifest.firefox.json --exclude manifest.chrome.json
-          # Берем манифест для хрома и переименовываем в manifest.json
           cp manifest.chrome.json dist/chrome/manifest.json
-          # Архивируем
           cd dist/chrome
           zip -r ../extension-chrome.zip .
           cd ../..
@@ -30,40 +29,41 @@ jobs:
         run: |
           mkdir -p dist/firefox
           rsync -av --progress . dist/firefox --exclude .git --exclude .github --exclude dist --exclude manifest.firefox.json --exclude manifest.chrome.json
-          # Берем манифест для фф
           cp manifest.firefox.json dist/firefox/manifest.json
-          # Архивируем
           cd dist/firefox
           zip -r ../extension-firefox.zip .
           cd ../..
 
-      # --- СОЗДАНИЕ РЕЛИЗА НА GITHUB ---
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+      # --- СОХРАНЕНИЕ АРХИВОВ В GITHUB (ВМЕСТО РЕЛИЗОВ) ---
+      # Поскольку тегов нет, мы сохраняем файлы как артефакты. 
+      # Их можно скачать справа в деталях запущенного Action.
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          files: |
-            dist/extension-chrome.zip
-            dist/extension-firefox.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: extensions-zip
+          path: dist/*.zip
+          retention-days: 5
 
       # --- ПУБЛИКАЦИЯ В CHROME ---
+      # ВАЖНО: Упадет с ошибкой, если вы не подняли версию в manifest.chrome.json!
       - name: Upload to Chrome Web Store
         uses: mnao305/chrome-extension-upload@v5.0.0
+        continue-on-error: true # Чтобы ошибка не останавливала следующий шаг (Firefox)
         with:
           file-path: dist/extension-chrome.zip
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          publish: true # Если false, то только загрузит черновик, но не отправит на проверку
+          publish: true 
 
       # --- ПУБЛИКАЦИЯ В FIREFOX ---
+      # ВАЖНО: Упадет с ошибкой, если вы не подняли версию в manifest.firefox.json!
       - name: Upload to Firefox Add-ons
         uses: wdzeng/firefox-addon@v1
+        continue-on-error: true
         with:
-          addon-guid: "{8ab1db50-b280-4711-bd75-68e4bad4aeee}" # Ваш ID из манифеста
+          addon-guid: "{8ab1db50-b280-4711-bd75-68e4bad4aeee}" 
           xpi-path: dist/extension-firefox.zip
           jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
           jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
-          # self-hosted: false (по умолчанию false, значит публикуем в магазин)
