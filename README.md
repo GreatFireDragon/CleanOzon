@@ -1,7 +1,7 @@
 # Убирает маркетинговые элементы с Ozon 🧹 
 
-Ссылка в Chrome: https://chromewebstore.google.com/detail/%D1%87%D0%B8%D1%81%D1%82%D1%8B%D0%B9-ozon/chcnlikabpdaphdnadmeaadcfjmcdpjg?authuser=0&hl=en
-Ссылка в firefox: https://addons.mozilla.org/en-US/firefox/addon/%D1%87%D0%B8%D1%81%D1%82%D1%8B%D0%B9-ozon/
+## [Ссылка на расширение в Chrome]([url](https://chromewebstore.google.com/detail/%D1%87%D0%B8%D1%81%D1%82%D1%8B%D0%B9-ozon/chcnlikabpdaphdnadmeaadcfjmcdpjg?authuser=0&hl=en))
+## [Ссылка на расширение в firefox]([url](https://addons.mozilla.org/en-US/firefox/addon/%D1%87%D0%B8%D1%81%D1%82%D1%8B%D0%B9-ozon/))
 
 ### Сделано мной - greatfiredragon.site
 
