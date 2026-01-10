@@ -47,7 +47,8 @@
         "technical": false,
         "interaction": false,
         "personal": false,
-        "sensitive": false
+        "sensitive": false,
+        "required": false 
       }
     }
   }
