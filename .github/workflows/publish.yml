@@ -1,18 +1,37 @@
-name: Build and Publish on Push
+name: Build, Release and Publish
 
 on:
   push:
     branches:
-      - main  # или 'master', проверьте как называется ваша ветка
+      - main
     paths-ignore:
-      - '*.md' # Не запускать сборку, если меняли только README
+      - '*.md'
+
+# ВАЖНО: Разрешаем скрипту создавать релизы и теги
+permissions:
+  contents: write
 
 jobs:
-  build-and-publish:
+  build-release-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      # 1. Читаем версию из манифеста и заголовок коммита
+      - name: Read Version and Commit Message
+        id: meta
+        run: |
+          # Читаем поле version из json
+          VERSION=$(jq -r '.version' manifest.chrome.json)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          
+          # Берем первую строку сообщения коммита (чтобы заголовок релиза не был огромным)
+          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -n 1)
+          echo "COMMIT_MSG=$COMMIT_MSG" >> $GITHUB_ENV
+          
+          echo "Detected version: $VERSION"
+          echo "Commit message: $COMMIT_MSG"
 
       # --- СБОРКА CHROME ---
       - name: Build Chrome Extension
@@ -34,21 +53,36 @@ jobs:
           zip -r ../extension-firefox.zip .
           cd ../..
 
-      # --- СОХРАНЕНИЕ АРХИВОВ В GITHUB (ВМЕСТО РЕЛИЗОВ) ---
-      # Поскольку тегов нет, мы сохраняем файлы как артефакты. 
-      # Их можно скачать справа в деталях запущенного Action.
+      # --- СОЗДАНИЕ РЕЛИЗА НА GITHUB ---
+      # Этот шаг создаст тег v<версия> (если его нет) и оформит релиз
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: "v${{ env.VERSION }} - ${{ env.COMMIT_MSG }}"
+          body: |
+            Автоматический релиз версии ${{ env.VERSION }}.
+            Коммит: ${{ env.COMMIT_MSG }}
+          files: |
+            dist/extension-chrome.zip
+            dist/extension-firefox.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- СОХРАНЕНИЕ АРТЕФАКТОВ (На всякий случай оставим) ---
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: extensions-zip
+          name: extensions-v${{ env.VERSION }}
           path: dist/*.zip
           retention-days: 5
 
       # --- ПУБЛИКАЦИЯ В CHROME ---
-      # ВАЖНО: Упадет с ошибкой, если вы не подняли версию в manifest.chrome.json!
       - name: Upload to Chrome Web Store
         uses: mnao305/chrome-extension-upload@v5.0.0
-        continue-on-error: true # Чтобы ошибка не останавливала следующий шаг (Firefox)
+        continue-on-error: true
         with:
           file-path: dist/extension-chrome.zip
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
@@ -58,7 +92,6 @@ jobs:
           publish: true 
 
       # --- ПУБЛИКАЦИЯ В FIREFOX ---
-      # ВАЖНО: Упадет с ошибкой, если вы не подняли версию в manifest.firefox.json!
       - name: Upload to Firefox Add-ons
         uses: wdzeng/firefox-addon@v1
         continue-on-error: true

@@ -40,11 +40,15 @@
       "css": ["css/product_page.css"]
     }
   ],
-
-
   "browser_specific_settings": {
     "gecko": {
-      "id": "{8ab1db50-b280-4711-bd75-68e4bad4aeee}"
+      "id": "{8ab1db50-b280-4711-bd75-68e4bad4aeee}",
+      "data_collection_permissions": {
+        "technical": false,
+        "interaction": false,
+        "personal": false,
+        "sensitive": false
+      }
     }
   }
 }
