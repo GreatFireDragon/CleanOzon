@@ -39,7 +39,6 @@ jobs:
           rsync -av --progress . dist/chrome --exclude .git --exclude .github --exclude dist --exclude manifest.firefox-overrides.json
           
           # Для Хрома манифест остается без изменений
-          # (rsync уже скопировал manifest.json, но для надежности убедимся)
           
           cd dist/chrome
           zip -r ../extension-chrome.zip .
@@ -51,7 +50,7 @@ jobs:
           mkdir -p dist/firefox
           rsync -av --progress . dist/firefox --exclude .git --exclude .github --exclude dist --exclude manifest.firefox-overrides.json
           
-          # МАГИЯ ЗДЕСЬ: Склеиваем основной манифест с настройками для FF
+          # Склеиваем основной манифест с настройками для FF
           # '.[0] * .[1]' означает: взять первый файл и наложить на него второй (перезаписать совпадающие поля)
           jq -s '.[0] * .[1]' manifest.json manifest.firefox-overrides.json > dist/firefox/manifest.json
           

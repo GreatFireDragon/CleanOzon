@@ -35,12 +35,8 @@ header>div:last-child>div:first-child
 
 
 /* ------------------------------------------
-Стили для всех страниц, на которых есть карточки товаров
+Карточки товаров
 ------------------------------------------ */
-
-/* TODO:
-Переработвать ценники, чтобы выделятиь более точечно, а не через общий селектор tsHeadline500Medium
-*/
 
 /* Ценники */
 span.tsHeadline500Medium
@@ -51,30 +47,25 @@ background: none !important;
 }
 
 /* ozon.ru */
-/* div:is([data-widget="skuGridSimple"]) > div > div { */
-div:has(> div[data-index]) > div {
-    /* Прямоугольные плашки */
-    & > a section, 
-    /* Оценка товара */
-    & > div:nth-of-type(2) > div:nth-of-type(2) {
-        display: none;
-    }
-}
+div[data-index] > :is(
+    a section,                                          /* Прямоугольные плашки */
+    div:nth-of-type(2) > div:nth-of-type(2)             /* Оценка товара */
+)
+{ display: none !important; }
 
 /* ozon.ru/category */
-/* div[data-widget="tileGridDesktop"] > div { */
-div:has(> div[data-index]) > div {
-    /* Прямоугольные плашки на карточке */
-    & > a section, 
-    /* Оценка, отзывы, остатки */
-    & > a + div div:is(:nth-of-type(n+2)),
-    /* Старая цена и скидка (внутри блока цены) */
-    & > a + div div:nth-of-type(1) > div > span:is(:nth-of-type(n+2)),
-    /* Сердечко (Добавть в избранное) */
-    & > a + div + div {
-        display: none;
-    }
-}
+div[data-index] > :is(
+    a section,                                          /* Прямоугольные плашки на карточке */
+    a + div + div                                       /* Сердечко (Добавить в избранное) */
+)
+{ display: none !important; }
+
+div[data-index] > a + div :is(
+    div:nth-of-type(n+2),                               /* Оценка, отзывы, остатки */
+    div:nth-of-type(1) > div > span:nth-of-type(n+2)    /* Старая цена и скидка */
+) 
+{ display: none !important; }
+
 /* Перекрасить "в корзину" */
 div[data-widget="skuGridSimple"] > div > div:nth-child(2) > div:nth-child(5) > div > button
 {background: var(--cleanOzon-gray);}
