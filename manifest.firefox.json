@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Чистый Ozon",
-  "version": "0.2.1",
-  "description": "Custom styles and enhancements for www.ozon.ru.",
-  "author": "Your Name/Handle",
+  "version": "0.2.2",
+  "description": "Пользовательские стили и улучшения для www.ozon.ru",
+  "author": "GreatFireDragon",
   "icons": {
     "128": "icons/icon.png"
   },
@@ -42,7 +42,7 @@
   ],
 
 
-  
+
   "browser_specific_settings": {
     "gecko": {
       "id": "{8ab1db50-b280-4711-bd75-68e4bad4aeee}"
