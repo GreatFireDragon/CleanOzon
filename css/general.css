@@ -1,5 +1,10 @@
 /* This CSS applies to all pages on www.ozon.ru */
 
+:root
+{
+    --cleanOzon-gray: red;
+}
+
 footer
 { display: none; }
 

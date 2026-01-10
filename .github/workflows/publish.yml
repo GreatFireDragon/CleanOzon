@@ -49,7 +49,7 @@ jobs:
 
       # --- ПУБЛИКАЦИЯ В CHROME ---
       - name: Upload to Chrome Web Store
-        uses: wdzeng/chrome-extension-upload@v2
+        uses: mnao305/chrome-extension-upload@v5.0.0
         with:
           file-path: dist/extension-chrome.zip
           extension-id: ${{ secrets.CHROME_EXTENSION_ID }}

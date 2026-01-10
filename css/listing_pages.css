@@ -1,8 +1,8 @@
 /* Ценники */
 span.tsHeadline500Medium
 {
--webkit-text-fill-color: #bbb !important;
-color: #bbb !important;
+-webkit-text-fill-color: var(--cleanOzon-gray) !important;
+color: var(--cleanOzon-gray) !important;
 background: none !important;
 }
 
@@ -18,4 +18,4 @@ div[data-widget="tileGridDesktop"] > div > div:nth-child(2) > div:nth-child(5) >
 
 /* Перекрасить "в корзину" */
 div[data-widget="tileGridDesktop"] > div > div:nth-child(2) > div:nth-child(5) > div > button
-{background: #bbb;}
+{background: var(--cleanOzon-gray);}
