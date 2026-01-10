@@ -48,7 +48,7 @@
         "interaction": false,
         "personal": false,
         "sensitive": false,
-        "required": false 
+        "required": [] 
       }
     }
   }
