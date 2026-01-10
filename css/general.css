@@ -1,0 +1,25 @@
+/* This CSS applies to all pages on www.ozon.ru */
+
+footer
+{ display: none; }
+
+/* separator */
+div[data-widget="separator"]
+{ display: none; }
+
+/* Знак вопроса внизу */
+/* div[data-widget="stickyContainer"]
+{ display: none; } */
+
+/* Красные значки уведомлений в хедере  */
+div.tsBodyNumeric300XSmall,
+div.tsBody200XSmall
+{ display: none; }
+
+/* header */
+header[data-widget="header"][itemscope="itemscope"]
+{ padding: 0; }
+
+/* Верхняя перелинковка */
+header>div:last-child>div:first-child
+{ display: none !important; }

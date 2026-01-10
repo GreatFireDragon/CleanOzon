@@ -1,0 +1,134 @@
+/* This CSS applies to product pages */
+
+/* Маркетинговые иконки на товаре */
+div[data-widget="webMarketingLabels"]
+{display: none; }
+
+/* звезды, отзывы, вопросы под заголвоком */
+div[data-widget="webProductHeading"]+div
+{ display: none; }
+
+/* Краткий список характеристик товара */
+div[data-widget="webShortCharacteristics"]>div:last-child div
+{padding: 0px; }
+
+/*  --- Колонка справа ---  */
+div[data-widget="webPdpGrid"]+div[data-widget="webStickyColumn"]
+{opacity: 0.3;
+position: absolute;
+right: var(--gap);
+top: calc(var(--gap)*3);
+transition: 0.5s; }
+
+div[data-widget="webPdpGrid"]+div[data-widget="webStickyColumn"]:hover
+{ opacity: 1; }
+
+div:has(>div>div>div[data-widget="webPricePerStars"])
+{display: none}
+
+/* Широкие превьюшки и описание */
+div[data-widget="webPdpGrid"]:has(+div[data-widget="webStickyColumn"])
+{width: 100% !important; }
+
+/* Информация о доставке */
+div:has(>div>div[data-widget="bigPromoPDP"])>div:last-child
+{ display: none; }
+
+/* Купить в один клик */
+div>button[data-widget="webOneClickButton"]
+{ display: none; }
+
+/* Сделать цену серой */
+div[data-widget="webPrice"]>div>div>button>span>div>div>div>div,
+div[data-widget="webAddToCart"]>div>div>div>div>button
+{background: gray !important; }
+
+/* Цена без озон карты */
+div[data-widget="webPrice"]>div>div:last-child
+{ display: none; }
+
+/* Стало дешевле */
+div[data-widget="webSale"]>div>div:nth-child(2)
+{ display: none; }
+
+/* Большой промо-блок */
+div[data-widget="bigPromoPDP"]
+{ display: none; }
+
+/* Есть дешевле */
+div:has(>div>div[data-widget="webBestSeller"])
+{ display: none; }
+
+/* --- Рекомендации --- */
+/* Карусель рекомендаций/связанных товаров */
+div[data-widget="row"]:has(div[data-widget="skuShelfGoods"])
+{ display: none; }
+
+/*  pinned review  */
+div[data-widget="pinnedReview"]
+{ display: none; }
+
+/* Похожее от магазина */
+div[data-widget="webCollections"]
+{ display: none; }
+
+/* Сетка рекомендуемых товаров */
+div[data-widget="skuGrid"]
+{ display: none; }
+
+/* Карусель баннеров */
+div:has(>div>div[data-widget="bannerCarousel"])
+{ display: none; }
+
+/* Информация о продаце */
+div[data-widget="row"]:has(div[data-widget="webCurrentSeller"])
+{ display: none; }
+
+/* Список тегов товара */
+div[data-widget="webHashtags"]
+{ display: none; }
+
+/* Подборки товаров */
+div[data-widget="tagList"]
+{ display: none; }
+
+/* --- Отзывы --- */
+div[data-widget="webListReviews"]:has(div[data-review-uuid])
+{ border: thin dashed #333333bd;
+margin-bottom: 10px;
+padding: 5px; }
+
+div[data-widget="webListReviews"]:has(div[data-review-uuid]) span
+{ font-size: 15px; font-family: cursive; color: #2229; line-height: 20px; }
+
+/* Во всю ширину экрана */
+div[data-widget="webReviewTabs"] div[data-widget="column"]
+{flex-basis: 100%;
+max-width: 100%; }
+
+/* Верх и низ отзыва (дата, кнопки) */
+div[data-review-uuid]>div:last-child,
+div[data-review-uuid]>div:first-child
+{ display: none; }
+
+/*  Убрать отступы - слева, снизу, сверху, сверху*/
+div[data-review-uuid]>div:nth-child(2),
+div[data-review-uuid]>div:nth-child(2)>div:nth-child(2),
+div[data-widget="webListReviews"] div:has(div[data-review-uuid]),
+div[data-review-uuid]+div>div>div
+{ padding: 0; margin: 0; }
+
+div:has(>div>button[aria-label="Открыть галерею"])
+{margin-top: 0px !important; height: 50rem; }
+
+/* Оценка отзыва/информация о товаре */
+div[data-review-uuid]>div:nth-child(2)>div:first-child
+{ display: none; }
+
+/* Вкладки отзывов (скрыть остальные) */
+div[data-widget="webReviewTabs"] div[data-widget="column"]:nth-child(n+2)
+{ display: none; }
+
+/* --- Sticky header при пролистывании --- */
+div[data-widget="webStickyProducts"]
+{ display: none; }

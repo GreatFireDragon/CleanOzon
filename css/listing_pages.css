@@ -1,0 +1,21 @@
+/* Ценники */
+span.tsHeadline500Medium
+{
+-webkit-text-fill-color: #bbb !important;
+color: #bbb !important;
+background: none !important;
+}
+
+section:has(div.tsBodyControl400Small)
+{display: none;}
+
+/* Убрать ненужное с карточек */
+div[data-widget="tileGridDesktop"] > div > div:nth-child(2) > div:nth-child(1) > div > span:nth-child(n+2),
+div[data-widget="tileGridDesktop"] > div > div:nth-child(2) > div:nth-child(2),
+div[data-widget="tileGridDesktop"] > div > div:nth-child(2) > div:nth-child(4),
+div[data-widget="tileGridDesktop"] > div > div:nth-child(2) > div:nth-child(5) > div > button + div
+{ display: none; }
+
+/* Перекрасить "в корзину" */
+div[data-widget="tileGridDesktop"] > div > div:nth-child(2) > div:nth-child(5) > div > button
+{background: #bbb;}

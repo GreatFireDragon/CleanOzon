@@ -1,0 +1,11 @@
+/* css/settings_styles.css */
+
+/* Class added to <html> by settings.js for Black and White mode */
+html.ozon-customizer-bw-mode body {
+    filter: grayscale(1);
+}
+
+/* Class added to <html> by settings.js for Hiding Reviews without Images (on product pages) */
+html.ozon-customizer-hide-reviews-no-img div[data-widget="webListReviews"]:not(:has(button[aria-label="Открыть галерею"])):not(:first-child) {
+    display: none;
+}

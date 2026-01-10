@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ozon Customizer Settings</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: sans-serif;
+            width: 350px; /* Slightly wider for new labels */
+            padding: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Настройки</h3>
+    <label>
+        <input type="checkbox" id="hideReviewsWithoutImages">
+        Скрыть отзывы без картинок
+    </label>
+    <label>
+        <input type="checkbox" id="blackAndWhiteMode">
+        Черно-белый режим
+    </label>
+    <label>
+        <input type="checkbox" id="autoRedirects">
+        Автоматически уходить с рекламных страниц
+    </label>
+    <label>
+        <input type="checkbox" id="autoSelectVariantReviews">
+        Автоматически выбирать «Этот вариант товара» в отзывах
+    </label>
+
+    <script src="popup.js"></script>
+</body>
+</html>

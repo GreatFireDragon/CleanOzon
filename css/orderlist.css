@@ -1,0 +1,7 @@
+/* Рекомендации к вашим покупкам */
+div[data-widget="skuGrid"]
+{display: none;}
+
+/* Вы смотрели */
+div[data-widget="skuShelfGoods"]
+{display: none;}
