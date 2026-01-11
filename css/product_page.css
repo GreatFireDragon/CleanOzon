@@ -15,13 +15,18 @@ div[data-widget="webProductHeading"]+div
 div[data-widget="webShortCharacteristics"]>div:last-child div
 {padding: 0px; }
 
-/*  --- Колонка справа ---  */
+/*  --- 
+Колонка справа 
+---  */
 div[data-widget="webPdpGrid"]+div[data-widget="webStickyColumn"]
-{opacity: 0.3;
-position: absolute;
-right: var(--gap);
-top: calc(var(--gap)*3);
-transition: 0.5s; }
+{
+  opacity: 0.3;
+  position: absolute;
+  left: auto;
+  right: 10%; 
+  top: calc(var(--gap)*3);
+  transition: 0.5s; 
+}
 
 div[data-widget="webPdpGrid"]+div[data-widget="webStickyColumn"]:hover
 { opacity: 1; }
@@ -62,7 +67,9 @@ div[data-widget="bigPromoPDP"]
 div:has(>div>div[data-widget="webBestSeller"])
 { display: none; }
 
-/* --- Рекомендации --- */
+/* --- 
+Рекомендации 
+--- */
 /* Карусель рекомендаций/связанных товаров */
 div[data-widget="row"]:has(div[data-widget="skuShelfGoods"])
 { display: none; }
@@ -95,7 +102,9 @@ div[data-widget="webHashtags"]
 div[data-widget="tagList"]
 { display: none; }
 
-/* --- Отзывы --- */
+/* --- 
+Отзывы 
+--- */
 div[data-widget="webListReviews"]:has(div[data-review-uuid])
 { border: thin dashed #333333bd;
 margin-bottom: 10px;

@@ -1,17 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Чистый Ozon",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Пользовательские стили и улучшения для www.ozon.ru",
   "author": "GreatFireDragon",
   "icons": {
     "128": "icons/icon.png"
   },
   "permissions": [
-    "storage"
-  ],
-  "host_permissions": [
-    "https://www.ozon.ru/*"
+    "storage" 
   ],
   "action": {
     "default_popup": "popup.html",
@@ -21,7 +18,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.ozon.ru/*", "https://www.ozon.ru/"],
+      "matches": ["https://www.ozon.ru/*"], 
       "css": ["css/general.css", "css/settings_styles.css"],
       "js": ["js/settings.js"]
     },
